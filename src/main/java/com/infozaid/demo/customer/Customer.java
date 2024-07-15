@@ -1,6 +1,6 @@
 package com.infozaid.demo.customer;
 
-import com.infozaid.demo.WebcourseApplication;
+
 import jakarta.persistence.*;
 
 import java.util.Objects;
