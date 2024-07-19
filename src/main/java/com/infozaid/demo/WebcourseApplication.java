@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScans;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class WebcourseApplication {
 			);
 
 			List<Customer> customers=List.of(alex,usman);
-			customerRepository.saveAll(customers);
+		//	customerRepository.saveAll(customers);
 		};
 	}
 

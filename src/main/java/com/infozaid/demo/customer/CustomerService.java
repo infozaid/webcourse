@@ -1,11 +1,13 @@
 package com.infozaid.demo.customer;
 
 import com.infozaid.demo.exception.DuplicateResourceException;
+import com.infozaid.demo.exception.RequestValidationException;
 import com.infozaid.demo.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Qualifier;;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 
 @Service
@@ -35,5 +37,41 @@ public class CustomerService {
                 customerRegistrationRequest.age());
         // add customer
         customerDao.insertCustomer(customer);
+    }
+
+    public void deleteCustomer(Integer id){
+        if(!customerDao.existPersonWithId(id)){
+           throw new ResourceNotFoundException("Customer with [%s] id not found:".formatted(id));
+        }
+        customerDao.delete(id);
+    }
+
+    public void updateCustomer(CustomerUpdateRequest customerUpdateRequest,Integer id){
+        Customer customer=getCustomer(id);
+
+        boolean changes=false;
+
+        if(customerUpdateRequest.age()!=null && !customer.getAge().equals(customerUpdateRequest.age())){
+            customer.setAge(customerUpdateRequest.age());
+            changes=true;
+        }
+        if(customerUpdateRequest.name()!=null && !customer.getAge().equals(customerUpdateRequest.name())){
+            customer.setName(customerUpdateRequest.name());
+            changes = true;
+        }
+        if(customerUpdateRequest.email()!=null && !customer.getEmail().equals(customerUpdateRequest.email())){
+            if(customerDao.existPersonWithEmail(customerUpdateRequest.email())){
+                throw new DuplicateResourceException("email already taken");
+            }
+            customer.setEmail(customerUpdateRequest.email());
+            changes = true;
+        }
+
+        if(!changes){
+            throw new RequestValidationException("no data changes found");
+        }
+
+        customerDao.upddateCustomer(customer);
+
     }
 }
