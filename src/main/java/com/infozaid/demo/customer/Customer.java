@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name="customer")
 public class Customer{
 
     @Id
@@ -33,6 +34,9 @@ public class Customer{
         this.name = name;
         this.email = email;
         this.age = age;
+    }
+
+    public Customer(int id, String name, String email, String password, int age, Gender gender, String profileImageId) {
     }
 
     public Integer getId() {
