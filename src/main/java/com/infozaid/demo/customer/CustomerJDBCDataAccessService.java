@@ -31,7 +31,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     public Optional<Customer> findCustomerById(Integer id) {
         var sql = """
                 SELECT id, name, email, age
-                FROM customer.public.customer
+                FROM customer
                 WHERE id = ?
                 """;
         return jdbcTemplate.query(sql, customerRowMapper, id)
@@ -91,7 +91,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public void upddateCustomer(Customer update) {
         if (update.getName() != null) {
-            String sql = "UPDATE customer.public.customer SET name = ? WHERE id = ?";
+            String sql = "UPDATE customer SET name = ? WHERE id = ?";
             int result = jdbcTemplate.update(
                     sql,
                     update.getName(),
@@ -100,7 +100,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
             System.out.println("update customer name result = " + result);
         }
         if (update.getAge() != null) {
-            String sql = "UPDATE customer.public.customer SET age = ? WHERE id = ?";
+            String sql = "UPDATE customer SET age = ? WHERE id = ?";
             int result = jdbcTemplate.update(
                     sql,
                     update.getAge(),
@@ -109,7 +109,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
             System.out.println("update customer age result = " + result);
         }
         if (update.getEmail() != null) {
-            String sql = "UPDATE customer.public.customer SET email = ? WHERE id = ?";
+            String sql = "UPDATE customer SET email = ? WHERE id = ?";
             int result = jdbcTemplate.update(
                     sql,
                     update.getEmail(),
@@ -117,7 +117,5 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
             System.out.println("update customer email result = " + result);
         }
     }
-
-
 
 }
