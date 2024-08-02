@@ -56,7 +56,7 @@ public class CustomerListDataAccessService implements CustomerDao{
     }
 
     @Override
-    public void upddateCustomer(Customer customer) {
+    public void updateCustomer(Customer customer) {
 
     }
 

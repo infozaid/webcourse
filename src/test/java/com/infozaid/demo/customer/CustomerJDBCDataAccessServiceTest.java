@@ -168,7 +168,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         update.setId(id);
         update.setName(newName);
 
-        underTest.upddateCustomer(update);
+        underTest.updateCustomer(update);
 
         Optional<Customer> actual=underTest.findCustomerById(id);
         Assertions.assertThat(actual).isPresent().hasValueSatisfying(c->{
@@ -205,7 +205,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         update.setEmail(updateEmail);
         update.setAge(20);
 
-        underTest.upddateCustomer(update);
+        underTest.updateCustomer(update);
 
         Optional<Customer> actual=underTest.findCustomerById(id);
         Assertions.assertThat(actual).isPresent().hasValue(update);
