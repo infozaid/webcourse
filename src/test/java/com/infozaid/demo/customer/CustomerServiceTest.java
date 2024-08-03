@@ -5,12 +5,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 // @ExtendWith(MockitoExtension.class) with this annotation we get rid of AutoClosable Boilerplate code
@@ -44,7 +46,7 @@ class CustomerServiceTest {
 
         Customer actual= underTest.getCustomer(id);
 
-        Assertions.assertThat(actual).isEqualTo(customer);
+        assertThat(actual).isEqualTo(customer);
     }
 
     @Test
@@ -61,6 +63,30 @@ class CustomerServiceTest {
 
     @Test
     void addCustomer() {
+
+        String email = "alex@gmail.com";
+
+        Mockito.when(customerDao.existPersonWithEmail(email)).thenReturn(false);
+
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex",email,20);
+
+        underTest.addCustomer(request);
+
+        ArgumentCaptor<Customer> customerArgumentCaptor = ArgumentCaptor.forClass(Customer.class);
+
+        verify(customerDao).insertCustomer(customerArgumentCaptor.capture());
+
+        Customer customerCaptured = customerArgumentCaptor.getValue();
+
+        assertThat(customerCaptured.getId()).isNull();
+
+        assertThat(customerCaptured.getName()).isEqualTo(request.name());
+
+        assertThat(customerCaptured.getEmail()).isEqualTo(request.email());
+
+        assertThat(customerCaptured.getAge()).isEqualTo(request.age());
+
+
     }
 
     @Test
